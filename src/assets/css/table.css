@@ -1,0 +1,51 @@
+#title {
+  text-align: center;
+  font-family: arial, sans-serif;
+}
+
+#students {
+  text-align: left;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+#students thead tr td{
+  font-weight: bold;
+}
+#students thead th {
+  padding: 10px;
+}
+#students td, #students th {
+  border: 1px solid #ddd;
+  padding: 5px;
+  font-family: 'Poppins';
+}
+#students thead{
+  background-color: #f7f8f9;
+}
+#students tbody{
+  background-color: white;
+}
+#students tbody tr td{
+  padding: 10px;
+}
+#students tr:nth-child(even){background-color: #f2f2f2;}
+
+#students tr:hover {background-color: #ddd;}
+
+/* #students th {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: center;
+  background-color: #4CAF50;
+  color: white;
+} */
+
+.ring-offset-blue-400 {
+  --tw-ring-offset-color: #009f7f!important;
+  color:#121212!important;
+}
+.rbc-show-more{
+  color:black;
+}
