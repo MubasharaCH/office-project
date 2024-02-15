@@ -41,6 +41,7 @@ export default function CreateOrUpdateTypeForm() {
 
   const [ListData, setListData] = useState([]);
   const [creatingLoading, setCreatingLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState({});
   const [locationDataArray, setLocationDataArray] = React.useState<any>([]);
 
   const [formData, setFormData] = useState({
@@ -130,6 +131,21 @@ export default function CreateOrUpdateTypeForm() {
         setloadingData(false);
       }
     });
+
+    GetFunction('/business-location').then((result) => {
+      if(result){
+        let ordersData = result.data.map((data, i) => {
+          return {
+            key: i,
+            id: data.id,
+            value: data.name,
+            label: data.name,
+          };
+        });
+
+        setLocationDataArray(ordersData);
+      }
+    })
   }, []);
 
   const handleIntegrationToggle = (section) => {
@@ -218,6 +234,30 @@ export default function CreateOrUpdateTypeForm() {
      setCreatingLoading(false);
     });
   };
+
+  //button loading function
+  
+  const handleButtonClick=(e,action)=>{
+   e.preventDefault()
+    setButtonLoading((preState) => ({
+      ...preState,
+      [action]: true,
+    }));
+    const data = {
+     
+    };
+
+    AddShipping('/sync-products-to-shopify', data).then((result) => {
+      if (result.status) {
+        toast.success(result.message);
+
+        // router.reload();  
+      } else {
+        toast.error(result.message);
+      }
+     setButtonLoading({action:false})
+    });
+  }
   return (
     <>
       <form>
@@ -417,30 +457,30 @@ export default function CreateOrUpdateTypeForm() {
           
           />
             
-             { formData.woocommerce.status ? (
+             { formData.woocommerce.status ?  (
               <span style={{ float: 'right' }}>
                  <Button
-                loading={creatingLoading}
+                loading={buttonLoading['syncCategories']}
                 className="rounded bg-accent p-2 text-white "
-                onClick={handleShopifyProduct || creatingLoading}
+                onClick={(e) => handleButtonClick(e,'syncCategories')}
                 style={{marginRight:3}}
               >
                 {t('common:Sync-Categories')}
               </Button>
                 <Button
                 
-                  loading={creatingLoading}
+                  loading={buttonLoading['syncProducts']}
                   className="rounded bg-accent p-2 text-white px-5 "
-                  onClick={handleShopifyProduct}
+                  onClick={(e)=>handleButtonClick(e,'syncProducts')}
                   style={{marginRight:3}}
                 >
                   {t('common:sync-products')}
                 </Button>
                 <Button
                 
-                loading={creatingLoading}
+                loading={buttonLoading['syncOrders']}
                 className="rounded bg-accent p-2 text-white"
-                onClick={handleShopifyProduct}
+                onClick={(e) => handleButtonClick(e,'syncOrders')}
 
               >
                 {t('common:Sync-Order')}

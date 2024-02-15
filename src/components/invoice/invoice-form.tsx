@@ -462,7 +462,7 @@ export default function CreateOrUpdateTypeForm(initialValue: any) {
         });
         return newData;
       });
-
+  // selection 
       var item = ordersData.find(
         (item) => item.id === initialValue.data?.location_id
       );
