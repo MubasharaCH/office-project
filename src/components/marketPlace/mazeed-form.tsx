@@ -38,7 +38,7 @@ export default function CreateOrUpdateTypeForm() {
   const [section, setSection] = useState();
   const [updateLoader, setUpdateLoader] = useState(false);
   const [loadingData, setloadingData] = useState(false);
-
+  const [locationID, setLocationID] = useState<any>();
   const [ListData, setListData] = useState([]);
   const [creatingLoading, setCreatingLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState({});
@@ -60,7 +60,7 @@ export default function CreateOrUpdateTypeForm() {
       woocommerce_consumer_key:'',
       woocommerce_app_url:'',
       woocommerce_consumer_secret:'',
-      location_id:'',
+     // location_id:'',
       status: true,
     },
    
@@ -181,7 +181,7 @@ export default function CreateOrUpdateTypeForm() {
         woocommerce_consumer_key:formData.woocommerce.woocommerce_consumer_key,
         woocommerce_app_url:formData.woocommerce.woocommerce_app_url,
         woocommerce_consumer_secret:formData.woocommerce.woocommerce_consumer_secret,
-        location_id:formData.woocommerce.location_id
+      //  location_id:formData.woocommerce.location_id
       }),
       status:formData.woocommerce.status ? 1:0,
     },
@@ -224,6 +224,7 @@ export default function CreateOrUpdateTypeForm() {
     };
 
     AddShipping('/sync-products-to-shopify', data).then((result) => {
+    //  console.log(result); return;
       if (result.status) {
         toast.success(result.message);
 
@@ -258,6 +259,16 @@ export default function CreateOrUpdateTypeForm() {
      setButtonLoading({action:false})
     });
   }
+  
+
+  const OnChangeLocation = (e) => {
+   // setProfitReport([]);
+    setLocationID(e.label);
+    console.log(e)
+   
+  };
+  //console.log(formData.woocommerce)
+ 
   return (
     <>
       <form>
@@ -448,11 +459,13 @@ export default function CreateOrUpdateTypeForm() {
               onInput={(e) => handleInputChange(e, 'woocommerce')}
               // value={googleCode}
             />
-           <Select className='mb-5' name='location_id'  
+           <Select className='mb-5' name='location_id'   
+            onChange={OnChangeLocation}
             getOptionLabel={(option: any) => option.label}
-            getOptionValue={(option: any) => option.key}
+            getOptionValue={(option: any) => option.id}
             styles={selectStyles}
             options={locationDataArray}
+            defaultValue={locationDataArray[0]} 
             // onChange={OnChangeLocation}
           
           />
